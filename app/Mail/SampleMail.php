@@ -31,12 +31,12 @@ class SampleMail extends Mailable
          $this->message = $message;
      }
 
-       //public function build()
-    //{
-        //return $this->markdown('emails.sample')->
-     //   subject(config('app.name').'','contact us')
-            //->view('emails.sample');
-    //}
+       public function build()
+    {
+        return $this->markdown('emails.sample')->
+       subject(config('app.name').'','contact us')
+            ->view('emails.sample');
+    }
     /**
      * Get the message envelope.
      */
