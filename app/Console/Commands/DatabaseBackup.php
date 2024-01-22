@@ -26,16 +26,20 @@ class DatabaseBackup extends Command
      */
     public function handle()
     {
-        
+        if (! Storage::exists('backup')) {
+            Storage::makeDirectory('backup');
+        }
  
-        $filename =  Carbon::now()->format('Y-m-d') . ".sql";
+        $filename = "backup-" . Carbon::now()->format('Y-m-d') . ".gz";
     
         $command = "mysqldump --user=" . env('DB_USERNAME') ." --password=" . env('DB_PASSWORD')
                 . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') 
-                . "  > " . storage_path() . "/app/backup/" . $filename;
+                . "  | gzip > " . storage_path() . "/app/backup/" . $filename;
  
+        $returnVar = NULL;
+        $output  = NULL;
  
-        exec($command);
+        exec($command, $output, $returnVar);
     }
 }
     
